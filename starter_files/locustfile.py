@@ -2,11 +2,8 @@ from locust import HttpUser, task
             
 class User(HttpUser):
     @task
-    def mainPage(self):
-        self.client.get("https://subhadeepapp11.azurewebsites.net/")
-        self.client.post("https://subhadeepapp11.azurewebsites.net:443/predict")
+    def get_home_route(self):
+        self.client.get('/')
     @task
-    def stop(self):
-        if len(creds) == 0:
-            self.user.environment.reached_end = True
-            self.user.environment.runner.quit()
+    def post_prediction(self):
+        self.client.post('/predict',json=input_data)
