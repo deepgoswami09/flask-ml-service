@@ -5,3 +5,8 @@ class User(HttpUser):
     def mainPage(self):
         self.client.get("https://subhadeepapp11.azurewebsites.net/")
         self.client.post("https://subhadeepapp11.azurewebsites.net:443/predict")
+    @task
+    def stop(self):
+        if len(creds) == 0:
+            self.user.environment.reached_end = True
+            self.user.environment.runner.quit()
