@@ -19,7 +19,7 @@ variables:
   environmentName: 'flask-ml-service'
 
   # Project root folder. Point to the folder containing manage.py file.
-  projectRoot: /starter_files/
+  projectRoot: $(System.DefaultWorkingDirectory)
 
 stages:
 - stage: Build
@@ -32,7 +32,7 @@ stages:
         python3.7 -m pip install --upgrade pip
         python3.7 -m pip install setup
         python3.7 -m pip install -r requirements.txt
-      workingDirectory: $(projectRoot)
+      workingDirectory: $(projectRoot)/starter_files/
       displayName: 'myStep 1'
 
     - script: |
