@@ -29,10 +29,10 @@ stages:
     pool: myAgentPool
     steps:    
     - script: |
-        python3.7 -m pip install --upgrade pip
-        python3.7 -m pip install setup
-        python3.7 -m pip install -r requirements.txt
-      workingDirectory: /starter_files/$(projectRoot)
+        python3.5 -m pip install --upgrade pip
+        python3.5 -m pip install setup
+        python3.5 -m pip install -r requirements.txt
+      workingDirectory: $(projectRoot)
       displayName: 'myStep 1'
 
     - script: |
