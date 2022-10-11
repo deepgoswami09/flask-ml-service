@@ -38,20 +38,20 @@ stages:
     - script: |
         export PATH=$HOME/.local/bin:$PATH
         make install
-      workingDirectory: $(projectRoot)
+      workingDirectory: $(projectRoot)/starter_files/
       displayName: 'myStep 2'
 
     - script: |
         export PATH=$HOME/.local/bin:$PATH
         make install
         make lint
-      workingDirectory: $(projectRoot)
+      workingDirectory: $(projectRoot)/starter_files/
       displayName:  'myStep 3 - Run lint tests'
 
     - task: ArchiveFiles@2
       displayName: 'myStep 4 - Archive files'
       inputs:
-        rootFolderOrFile: '$(projectRoot)'
+        rootFolderOrFile: '$(projectRoot)/starter_files/'
         includeRootFolder: false
         archiveType: zip
         archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
@@ -60,3 +60,22 @@ stages:
     - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
       displayName: 'myStep 5 - Upload package'
       artifact: drop
+
+- stage: Deploy
+  displayName: 'Deploy Web App'
+  dependsOn: Build
+  condition: succeeded()
+  jobs:
+  - deployment: DeploymentJob
+    pool: myAgentPool
+    environment: $(environmentName)
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureWebApp@1
+            displayName: 'Deploy Azure Web App : flask-ml-service'
+            inputs:
+              azureSubscription: $(azureServiceConnectionId)
+              appName: $(webAppName)
+              package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
