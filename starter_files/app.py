@@ -57,7 +57,7 @@ def predict():
 
     try:
         clf = joblib.load("boston_housing_prediction.joblib")
-    except:
+    except Exception as e:
         LOG.info("JSON payload: %s json_payload")
         print(e)
         traceback.format_exc()
