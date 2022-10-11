@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from flask.logging import create_logger
+import sklearn.ensemble.GradientBoostingClassifier
 import logging
 
 import pandas as pd
