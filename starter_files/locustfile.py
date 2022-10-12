@@ -6,7 +6,7 @@ class User(HttpUser):
         self.client.get('/')
     @task
     def post_prediction(self):
-        self.client.post('/predict',json='{
+        self.client.post('/predict',json={
    "CHAS":{
       "0":0
    },
@@ -25,4 +25,4 @@ class User(HttpUser):
    "LSTAT":{
       "0":4.98
    }
-}')
+})
